@@ -1,0 +1,16 @@
+# Render Blueprint for the FastAPI backend: https://render.com/docs/blueprint-spec
+services:
+  - type: web
+    name: iotaresearch-api
+    runtime: docker
+    rootDir: backend
+    dockerfilePath: ./Dockerfile
+    plan: free
+    healthCheckPath: /
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false          # set the value in the Render dashboard
+      - key: TAVILY_API_KEY
+        sync: false          # optional; DuckDuckGo is used when empty
+      - key: FRONTEND_URL
+        value: https://iotaresearch.vercel.app
