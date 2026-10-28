@@ -1,0 +1,136 @@
+openapi: 3.0.0
+info:
+  title: AI Web Intelligence API
+  version: 1.0.0
+  description: API for generating research PDFs from website URLs.
+
+paths:
+  /generate:
+    post:
+      summary: Start PDF generation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                url:
+                  type: string
+                  format: uri
+                  example: "https://example.com"
+      responses:
+        '202':
+          description: Task accepted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  task_id:
+                    type: string
+                    format: uuid
+
+  /tasks:
+    get:
+      summary: List all research tasks
+      responses:
+        '200':
+          description: List of research tasks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ResearchTask'
+
+  /status/{task_id}:
+    get:
+      summary: Get task status and result
+      parameters:
+        - name: task_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Current status and document if completed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  status:
+                    type: string
+                    enum: [PENDING, SCRAPING, ANALYZING, GENERATING, COMPLETED, FAILED]
+                  document:
+                    $ref: '#/components/schemas/ResearchDocument'
+
+  /download/{task_id}:
+    get:
+      summary: Download the generated PDF
+      parameters:
+        - name: task_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: PDF file
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+
+components:
+  schemas:
+    ResearchDocument:
+      type: object
+      properties:
+        summary:
+          type: string
+        insights:
+          type: array
+          items:
+            type: string
+        content:
+          type: string
+        validation:
+          type: string
+        risks:
+          type: string
+        comparison:
+          type: string
+        pdf_url:
+          type: string
+
+    ResearchTask:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        url:
+          type: string
+          format: uri
+        status:
+          type: string
+          enum: [PENDING, SCRAPING, ANALYZING, GENERATING, COMPLETED, FAILED]
+        document:
+          $ref: '#/components/schemas/ResearchDocument'
+        error_message:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time

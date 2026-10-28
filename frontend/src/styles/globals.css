@@ -1,0 +1,159 @@
+@import "tailwindcss";
+
+/* Dark mode follows a .dark class on <html>, set by the theme toggle */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Light palette */
+:root {
+  --bg: #f6f6f8;
+  --surface: #ffffff;
+  --surface-2: #f0f0f4;
+  --line: #e3e3ea;
+  --line-strong: #cfcfd9;
+  --fg: #17171c;
+  --muted: #62626f;
+  --subtle: #9a9aa6;
+  --accent: #5b4cf5;
+  --accent-strong: #4a3be0;
+  --accent-fg: #ffffff;
+  --accent-soft: rgb(91 76 245 / 0.09);
+  --ok: #059669;
+  --warn: #d97706;
+  --bad: #dc2626;
+  --shadow: 0 1px 2px rgb(16 16 24 / 0.04), 0 4px 16px -4px rgb(16 16 24 / 0.08);
+  color-scheme: light;
+}
+
+/* Dark palette - only the tokens change, every component reads them */
+.dark {
+  --bg: #0a0a0e;
+  --surface: #131319;
+  --surface-2: #1b1b23;
+  --line: #25252f;
+  --line-strong: #34343f;
+  --fg: #f3f3f6;
+  --muted: #a3a3b0;
+  --subtle: #62626e;
+  --accent: #8b7dff;
+  --accent-strong: #a296ff;
+  --accent-fg: #0a0a0e;
+  --accent-soft: rgb(139 125 255 / 0.13);
+  --ok: #34d399;
+  --warn: #fbbf24;
+  --bad: #f87171;
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 8px 24px -8px rgb(0 0 0 / 0.5);
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-subtle: var(--subtle);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-fg: var(--accent-fg);
+  --color-accent-soft: var(--accent-soft);
+  --color-ok: var(--ok);
+  --color-warn: var(--warn);
+  --color-bad: var(--bad);
+  --shadow-card: var(--shadow);
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+@layer base {
+  body {
+    @apply bg-bg text-fg antialiased;
+    font-family: var(--font-sans);
+  }
+  ::selection {
+    background: var(--accent-soft);
+  }
+  /* Smooth the theme switch without animating everything on first paint */
+  .theme-ready body,
+  .theme-ready .surface-transition {
+    transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+  }
+}
+
+@utility card {
+  @apply rounded-2xl border border-line bg-surface shadow-card;
+}
+
+@utility eyebrow {
+  @apply text-[11px] font-semibold uppercase tracking-[0.14em] text-subtle;
+}
+
+/* Background grid used behind the hero and the workflow canvas */
+@utility dot-grid {
+  background-image: radial-gradient(circle at 1px 1px, var(--line-strong) 1px, transparent 0);
+  background-size: 22px 22px;
+}
+
+/* An edge in the agent workflow: dim while waiting, flowing while active, solid when done */
+@utility edge {
+  background: var(--line-strong);
+}
+@utility edge-active {
+  background-image: repeating-linear-gradient(90deg, var(--accent) 0 8px, transparent 8px 14px);
+  background-size: 28px 100%;
+  animation: flow-x 0.9s linear infinite;
+}
+@utility edge-active-y {
+  background-image: repeating-linear-gradient(180deg, var(--accent) 0 8px, transparent 8px 14px);
+  background-size: 100% 28px;
+  animation: flow-y 0.9s linear infinite;
+}
+@utility edge-done {
+  background: var(--accent);
+}
+
+@keyframes flow-x {
+  to { background-position: 28px 0; }
+}
+@keyframes flow-y {
+  to { background-position: 0 28px; }
+}
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes ping-soft {
+  0% { transform: scale(1); opacity: 0.55; }
+  100% { transform: scale(1.9); opacity: 0; }
+}
+@keyframes slide-in {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.45s ease-out both;
+}
+.animate-ping-soft {
+  animation: ping-soft 1.6s ease-out infinite;
+}
+.animate-slide-in {
+  animation: slide-in 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Waiting agents are dimmed during a run, but not in the static "how it works" preview */
+.wf-dim {
+  opacity: 0.55;
+}
+[data-preview] .wf-dim {
+  opacity: 1;
+}

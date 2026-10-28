@@ -1,55 +1,66 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+Sync Impact Report:
+- Version change: 0.0.0 → 1.0.0
+- List of modified principles:
+  - [PRINCIPLE_1_NAME] → I. Insight-Rich PDF Generation
+  - [PRINCIPLE_2_NAME] → II. Strict Output Structure
+  - [PRINCIPLE_3_NAME] → III. Empirical Grounding
+  - [PRINCIPLE_4_NAME] → IV. Professional Research Tone
+  - [PRINCIPLE_5_NAME] → V. Structural Clarity
+  - [PRINCIPLE_6_NAME] → VI. Critical Analysis
+- Added sections: Output Constraints
+- Removed sections: None
+- Templates requiring updates: 
+  - ✅ .specify/templates/plan-template.md (aligned)
+  - ✅ .specify/templates/spec-template.md (aligned)
+  - ✅ .specify/templates/tasks-template.md (aligned)
+- Follow-up TODOs: None
+-->
+
+# Web-to-PDF Research & Document Generation System Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Insight-Rich PDF Generation
+The system MUST transform website URLs into structured, high-quality, and insight-rich PDF-ready documents. The goal is to provide deep research, not just a content dump.
+**Rationale**: Users need actionable intelligence and synthesis, not just a copy of the webpage.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### II. Strict Output Structure
+Every generated document MUST follow a standardized 6-section structure: Executive Summary, Key Insights, Extracted Content, Extended Validation, Risks & Limitations, and Comparison.
+**Rationale**: Consistency in structure ensures reliability and ease of consumption for the user.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### III. Empirical Grounding (No Hallucination)
+The system MUST NOT fabricate facts, stats, or sources. If information is missing from the source or external research, it MUST explicitly state: "Information not available."
+**Rationale**: Accuracy is paramount in research. Hallucinations destroy trust and utility.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### IV. Professional Research Tone
+All output MUST maintain a professional, neutral, and research-oriented tone. Marketing language, exaggerations, and promotional filler MUST be removed or neutralized.
+**Rationale**: The system acts as a researcher, providing objective analysis rather than relaying marketing intent.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### V. Structural Clarity (No Raw UI)
+The system MUST NOT copy raw HTML, navigation menus, ads, or irrelevant UI elements. Content MUST be organized into logical sections with clean, descriptive headings.
+**Rationale**: PDF readability depends on a clean, focused layout that ignores the noise of web interfaces.
 
-### [PRINCIPLE_6_NAME]
+### VI. Critical Analysis
+The system MUST identify missing information, potential biases, and weak claims. It SHOULD prioritize unique or impactful information over generic content.
+**Rationale**: Value-add research requires a critical eye to surface what is missing or questionable in the source material.
 
+## Output Constraints
 
-[PRINCIPLE__DESCRIPTION]
-
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
-
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
-
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
-
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+### Section Requirements
+- **Executive Summary**: Concise, high-level, focus on purpose and value.
+- **Key Insights**: Bullet-point format, impactful ideas/features.
+- **Extracted Content**: Clean, structured version of core content.
+- **Extended Validation**: Enrich with industry context and comparable solutions.
+- **Risks & Limitations**: Identify gaps, biases, and lack of evidence.
+- **Comparison**: Neutral comparison with general alternatives.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+### Amendment Procedure
+This constitution is the source of truth for system behavior. Amendments require a version bump (MAJOR for removals/redefinitions, MINOR for additions, PATCH for clarifications) and must be reflected in all dependent templates.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+### Compliance Review
+Every feature implementation and prompt history record (PHR) must be evaluated against these principles. Non-compliant outputs are considered bugs.
+
+**Version**: 1.0.0 | **Ratified**: 2026-05-05 | **Last Amended**: 2026-05-05
