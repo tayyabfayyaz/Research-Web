@@ -21,6 +21,17 @@ export const isFinished = (status: TaskStatus) => status === 'COMPLETED' || stat
 
 export const downloadUrl = (id: string) => `${API_URL}/api/download/${id}`;
 
+// fetch() rejects with a bare "Failed to fetch" when the server is down or unreachable
+async function apiFetch(path: string, init?: RequestInit): Promise<Response> {
+  try {
+    return await fetch(`${API_URL}${path}`, init);
+  } catch {
+    throw new Error(
+      "Can't reach the research server. It may be starting up (this can take up to a minute) - please try again shortly."
+    );
+  }
+}
+
 async function errorMessage(res: Response, fallback: string) {
   const body = await res.json().catch(() => null);
   // FastAPI validation errors arrive as {detail: [{msg}]}, other errors as {detail: string}
@@ -29,7 +40,7 @@ async function errorMessage(res: Response, fallback: string) {
 }
 
 export async function startResearch(url: string): Promise<ResearchTask> {
-  const res = await fetch(`${API_URL}/api/generate`, {
+  const res = await apiFetch(`/api/generate`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ url }),
@@ -39,13 +50,13 @@ export async function startResearch(url: string): Promise<ResearchTask> {
 }
 
 export async function getTask(id: string): Promise<ResearchTask> {
-  const res = await fetch(`${API_URL}/api/status/${id}`);
+  const res = await apiFetch(`/api/status/${id}`);
   if (!res.ok) throw new Error(res.status === 404 ? 'Report not found' : 'Could not load the report');
   return res.json();
 }
 
 export async function listTasks(): Promise<ResearchTask[]> {
-  const res = await fetch(`${API_URL}/api/tasks`);
+  const res = await apiFetch(`/api/tasks`);
   if (!res.ok) throw new Error('Could not load recent reports');
   return res.json();
 }
@@ -55,7 +66,7 @@ export async function askAboutReport(
   message: string,
   history: { role: 'user' | 'assistant'; content: string }[]
 ): Promise<string> {
-  const res = await fetch(`${API_URL}/api/chat/${id}`, {
+  const res = await apiFetch(`/api/chat/${id}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ message, history }),
